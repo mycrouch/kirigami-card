@@ -14,7 +14,7 @@
  * Author: Jason Crouch — MIT. MDI icon paths © Pictogrammers (Apache 2.0).
  */
 
-const ENTITY_GROUP_CARD_VERSION = '1.2.0';
+const ENTITY_GROUP_CARD_VERSION = '1.3.0';
 
 console.info(
   `%c ENTITY-GROUP-CARD %c v${ENTITY_GROUP_CARD_VERSION} `,
@@ -326,18 +326,20 @@ class EntityGroupCard extends HTMLElement {
           /* row list */
           .dc-rows { display: flex; flex-direction: column; gap: 14px; }
           .dc-row { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-          .dc-row-icon { display: inline-flex; }
-          .dc-row-name { color: ${pal.text}; font-size: 15px; flex: 1 1 auto; }
-          .dc-row-value { color: ${pal.secondary}; font-size: 15px; text-align: right; white-space: nowrap; }
+          .dc-row-icon { display: inline-flex; flex: 0 0 auto; }
+          /* Name stays on one line and ellipsises instead of wrapping into a
+             tall stack when the card is narrow. */
+          .dc-row-name { color: ${pal.text}; font-size: 15px; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .dc-row-value { color: ${pal.secondary}; font-size: 15px; text-align: right; white-space: nowrap; flex: 0 0 auto; }
 
           /* chip grid */
           .dc-grid { display: grid; ${gridCols} gap: 12px; }
           .dc-chip {
             display: flex; flex-direction: column; align-items: center; gap: 8px;
             padding: 14px 8px; border-radius: 14px; background: ${pal.chip};
-            cursor: pointer;
+            cursor: pointer; min-width: 0;
           }
-          .dc-chip-value { color: ${pal.text}; font-size: 15px; text-align: center; }
+          .dc-chip-value { color: ${pal.text}; font-size: 15px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
           .dc-row-icon ha-state-icon, .dc-row-icon ha-icon,
           .dc-chip-icon ha-state-icon, .dc-chip-icon ha-icon {
@@ -479,7 +481,7 @@ class EntityGroupCardEditor extends HTMLElement {
       source: 'Choose a device or pick entities',
       device: 'Device',
       layout: 'Layout',
-      columns: 'Columns (grid)',
+      columns: 'Columns (1–5, blank = auto-fit)',
       style: 'Background style',
       theme: 'Theme',
       background_start: 'Gradient start (hex, e.g. #1565c0)',
@@ -511,7 +513,7 @@ class EntityGroupCardEditor extends HTMLElement {
       },
     ];
     if (cfg.layout === 'grid') {
-      schema.push({ name: 'columns', selector: { number: { min: 1, max: 8, mode: 'box' } } });
+      schema.push({ name: 'columns', selector: { number: { min: 1, max: 5, mode: 'box' } } });
     }
     schema.push({
       name: 'style',
@@ -566,10 +568,16 @@ class EntityGroupCardEditor extends HTMLElement {
     } catch (e) {
       this._reg = [];
     }
-    const ids = this._reg
+    // Pre-fill the short name (registry name / original_name) so device cards
+    // don't repeat the device prefix on every row (e.g. "Battery low", not
+    // "Front Door Battery low"). Falls back to a bare id when there's no name.
+    const items = this._reg
       .filter((e) => e.device_id === device && !e.hidden_by && !e.disabled_by)
-      .map((e) => e.entity_id);
-    this._emit(Object.assign({}, this._config, { entities: ids }));
+      .map((e) => {
+        const short = e.name || e.original_name;
+        return short ? { entity: e.entity_id, name: short } : e.entity_id;
+      });
+    this._emit(Object.assign({}, this._config, { entities: items }));
     this._render();
   }
 
