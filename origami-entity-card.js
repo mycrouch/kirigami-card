@@ -1,5 +1,5 @@
 /*
- * kirigami-card — a clean, GUI-driven Lovelace card that groups a device's
+ * origami-entity-card — a clean, GUI-driven Lovelace card that groups a device's
  * entities (or a hand-picked list) into a single tidy card.
  *
  * - Two entity sources: pick a device (auto-resolved via the entity registry)
@@ -14,10 +14,10 @@
  * Author: Jason Crouch — MIT. MDI icon paths © Pictogrammers (Apache 2.0).
  */
 
-const KIRIGAMI_CARD_VERSION = '1.4.3';
+const ORIGAMI_ENTITY_CARD_VERSION = '1.5.0';
 
 console.info(
-  `%c KIRIGAMI-CARD %c v${KIRIGAMI_CARD_VERSION} `,
+  `%c ORIGAMI-ENTITY-CARD %c v${ORIGAMI_ENTITY_CARD_VERSION} `,
   'color:#fff;background:#1565c0;font-weight:700;border-radius:3px 0 0 3px;padding:2px 4px;',
   'color:#1565c0;background:#e3f0fb;font-weight:700;border-radius:0 3px 3px 0;padding:2px 4px;'
 );
@@ -66,16 +66,22 @@ function titleWords(value) {
     .join(' ');
 }
 
-// A cut-paper snowflake — the canonical kirigami (fold-and-cut) motif. Shown in
-// the empty state, which is what Home Assistant renders as the card's preview
-// thumbnail in the "Add card" picker.
-const KIRIGAMI_MARK = `<svg class="dc-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M50 50 L50 10 M50 30 L55.9 22.4 M50 30 L44.1 22.4 M50 20.4 L55.9 12.8 M50 20.4 L44.1 12.8 M50 50 L84.6 30 M67.3 40 L76.8 41.3 M67.3 40 L70.9 31.1 M75.6 35.2 L85.1 36.5 M75.6 35.2 L79.2 26.3 M50 50 L84.6 70 M67.3 60 L70.9 68.9 M67.3 60 L76.8 58.7 M75.6 64.8 L79.2 73.7 M75.6 64.8 L85.1 63.5 M50 50 L50 90 M50 70 L44.1 77.6 M50 70 L55.9 77.6 M50 79.6 L44.1 87.2 M50 79.6 L55.9 87.2 M50 50 L15.4 70 M32.7 60 L23.2 58.7 M32.7 60 L29.1 68.9 M24.4 64.8 L14.9 63.5 M24.4 64.8 L20.8 73.7 M50 50 L15.4 30 M32.7 40 L29.1 31.1 M32.7 40 L23.2 41.3 M24.4 35.2 L20.8 26.3 M24.4 35.2 L14.9 36.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none"/></svg>`;
+// A little folded-paper origami crane — one sheet transformed, like this card.
+// Shown in the empty state, which is what Home Assistant renders as the card's
+// preview thumbnail in the "Add card" picker.
+const ORIGAMI_MARK = `<svg class="dc-mark" viewBox="0 0 120 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M4 42 L31 35 L58 55 L51 61 Z" opacity="0.7"/>
+  <path d="M52 56 L72 16 L94 47 Z"/>
+  <path d="M58 56 L114 44 L60 66 Z" opacity="0.7"/>
+  <path d="M52 58 L62 58 L60 74 L50 74 Z"/>
+  <path d="M55 74 L51 90 M60 74 L65 90" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>`;
 
 // ---------------------------------------------------------------------------
 // The card
 // ---------------------------------------------------------------------------
 
-class KirigamiCard extends HTMLElement {
+class OrigamiEntityCard extends HTMLElement {
   setConfig(config) {
     this._config = Object.assign(
       {
@@ -291,7 +297,7 @@ class KirigamiCard extends HTMLElement {
     let bodyHtml = '';
     if (!list.length) {
       bodyHtml = `<div class="dc-empty">
-          ${KIRIGAMI_MARK}
+          ${ORIGAMI_MARK}
           <div>No entities selected. Open the card editor to choose a device or entities.</div>
         </div>`;
     } else if (layout === 'grid') {
@@ -339,7 +345,7 @@ class KirigamiCard extends HTMLElement {
           .dc-header-icon { --mdc-icon-size: 24px; color: ${pal.secondary}; }
           .dc-title { font-size: 24px; font-weight: 400; color: ${pal.text}; line-height: 1.1; }
           .dc-empty { color: ${pal.secondary}; font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 20px 8px; }
-          .dc-mark { width: 58px; height: 58px; opacity: 0.8; }
+          .dc-mark { width: 66px; height: auto; fill: currentColor; opacity: 0.85; }
 
           /* row list */
           .dc-rows { display: flex; flex-direction: column; gap: 14px; }
@@ -405,12 +411,12 @@ class KirigamiCard extends HTMLElement {
   }
 
   static getConfigElement() {
-    return document.createElement('kirigami-card-editor');
+    return document.createElement('origami-entity-card-editor');
   }
 
   static getStubConfig() {
     return {
-      type: 'custom:kirigami-card',
+      type: 'custom:origami-entity-card',
       source: 'device',
       entities: [],
       layout: 'rows',
@@ -420,13 +426,13 @@ class KirigamiCard extends HTMLElement {
   }
 }
 
-customElements.define('kirigami-card', KirigamiCard);
+customElements.define('origami-entity-card', OrigamiEntityCard);
 
 // ---------------------------------------------------------------------------
 // The GUI editor
 // ---------------------------------------------------------------------------
 
-class KirigamiCardEditor extends HTMLElement {
+class OrigamiEntityCardEditor extends HTMLElement {
   setConfig(config) {
     this._config = config || {};
     // Focus-loss fix: HA echoes emitted config back into setConfig. When only
@@ -864,7 +870,7 @@ class KirigamiCardEditor extends HTMLElement {
   }
 }
 
-customElements.define('kirigami-card-editor', KirigamiCardEditor);
+customElements.define('origami-entity-card-editor', OrigamiEntityCardEditor);
 
 // ---------------------------------------------------------------------------
 // Register in the card picker
@@ -872,10 +878,10 @@ customElements.define('kirigami-card-editor', KirigamiCardEditor);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: 'kirigami-card',
-  name: 'Kirigami Card',
+  type: 'origami-entity-card',
+  name: 'Origami Device & Entity Card',
   preview: true,
   description:
     'Clean, GUI-driven card that groups a device’s entities (or a hand-picked list) as a labelled row-list or compact chip-grid, with default / per-card-theme / custom-gradient backgrounds.',
-  documentationURL: 'https://github.com/mycrouch/kirigami-card',
+  documentationURL: 'https://github.com/mycrouch/origami-entity-card',
 });

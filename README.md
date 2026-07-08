@@ -1,11 +1,11 @@
-# Kirigami Card
+# Origami Device & Entity Card
 
-One sheet of paper, folded and cut into countless shapes — that's the idea. A
+One sheet of paper, folded into countless shapes — that is the idea. A
 clean, GUI-driven Lovelace card that groups a device's entities, or any
 hand-picked list, into whatever shape your dashboard needs: a labelled row
 list, a compact chip grid, theme-native or on a custom gradient.
 
-Part of the **kirigami** family of flexible, general-purpose Home Assistant cards.
+Part of the **origami** family of flexible, general-purpose Home Assistant cards.
 
 <table>
   <tr>
@@ -38,26 +38,26 @@ Part of the **kirigami** family of flexible, general-purpose Home Assistant card
 ### HACS (custom repository)
 
 1. HACS → three-dot menu → **Custom repositories**.
-2. Add `https://github.com/mycrouch/kirigami-card`, category **Dashboard**.
-3. Install **Kirigami Card**, then hard-refresh the browser.
+2. Add `https://github.com/mycrouch/origami-entity-card`, category **Dashboard**.
+3. Install **Origami Device & Entity Card**, then hard-refresh the browser.
 
 ### Manual
 
-Copy `kirigami-card.js` to `/config/www/` and add a dashboard resource:
+Copy `origami-entity-card.js` to `/config/www/` and add a dashboard resource:
 
 ```yaml
-url: /local/kirigami-card.js
+url: /local/origami-entity-card.js
 type: module
 ```
 
 ## Configuration
 
-Add the card from the picker ("Kirigami Card") and use the visual editor — every
+Add the card from the picker ("Origami Device & Entity Card") and use the visual editor — every
 option is exposed there. YAML is fully supported too:
 
 ```yaml
 # Device mode — auto-pull a device's entities as a chip grid
-type: custom:kirigami-card
+type: custom:origami-entity-card
 title: Kitchen
 icon: mdi:countertop
 source: device
@@ -67,7 +67,7 @@ columns: 3
 style: default
 
 # Manual mode — hand-picked entities as a row list on a custom gradient
-type: custom:kirigami-card
+type: custom:origami-entity-card
 title: Front Door
 source: entities
 entities:
@@ -100,8 +100,8 @@ background_end: "#0d2b45"
 | `dark_text` | boolean | `false` | Use dark text for light gradients. |
 | `show_header` | boolean | `true` | Show/hide the header row. |
 
-> Previously published as **entity-group-card**. If you used an early build,
-> change your cards to `type: custom:kirigami-card`.
+> Previously published as **entity-group-card** (and briefly **kirigami-card**). If you used an early build,
+> change your cards to `type: custom:origami-entity-card`.
 
 ## The mycrouch card collection
 
@@ -112,7 +112,7 @@ picker — so they sit together neatly on one dashboard. Pair any of them with
 
 | Card | What it is |
 | --- | --- |
-| **Kirigami Card** (this card) | Group any device's entities as a row list or chip grid |
+| **Origami Device & Entity Card** (this card) | Group any device's entities as a row list or chip grid |
 | [pro-v-weather-card](https://github.com/mycrouch/pro-v-weather-card) | Weather-station console — clock, moon, forecast, UV, solar, wind |
 | [weather-station-card](https://github.com/mycrouch/weather-station-card) | LCD-console weather station with backlight themes |
 | [airtouch-card](https://github.com/mycrouch/airtouch-card) | AirTouch 4/5 AC + zone control |

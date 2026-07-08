@@ -1,5 +1,5 @@
 {
-  "name": "Kirigami Card",
-  "filename": "kirigami-card.js",
+  "name": "Origami Device & Entity Card",
+  "filename": "origami-entity-card.js",
   "render_readme": true
 }
