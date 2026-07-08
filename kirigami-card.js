@@ -14,7 +14,7 @@
  * Author: Jason Crouch — MIT. MDI icon paths © Pictogrammers (Apache 2.0).
  */
 
-const KIRIGAMI_CARD_VERSION = '1.4.2';
+const KIRIGAMI_CARD_VERSION = '1.4.3';
 
 console.info(
   `%c KIRIGAMI-CARD %c v${KIRIGAMI_CARD_VERSION} `,
@@ -66,15 +66,10 @@ function titleWords(value) {
     .join(' ');
 }
 
-// A little folded-paper origami crane — shown in the empty state (which is what
-// Home Assistant renders as the card's preview in the "Add card" picker).
-const KIRIGAMI_MARK = `<svg class="dc-mark" viewBox="0 0 120 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M4 42 L31 35 L58 55 L51 61 Z" opacity="0.7"/>
-  <path d="M52 56 L72 16 L94 47 Z"/>
-  <path d="M58 56 L114 44 L60 66 Z" opacity="0.7"/>
-  <path d="M52 58 L62 58 L60 74 L50 74 Z"/>
-  <path d="M55 74 L51 90 M60 74 L65 90" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-</svg>`;
+// A cut-paper snowflake — the canonical kirigami (fold-and-cut) motif. Shown in
+// the empty state, which is what Home Assistant renders as the card's preview
+// thumbnail in the "Add card" picker.
+const KIRIGAMI_MARK = `<svg class="dc-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M50 50 L50 10 M50 30 L55.9 22.4 M50 30 L44.1 22.4 M50 20.4 L55.9 12.8 M50 20.4 L44.1 12.8 M50 50 L84.6 30 M67.3 40 L76.8 41.3 M67.3 40 L70.9 31.1 M75.6 35.2 L85.1 36.5 M75.6 35.2 L79.2 26.3 M50 50 L84.6 70 M67.3 60 L70.9 68.9 M67.3 60 L76.8 58.7 M75.6 64.8 L79.2 73.7 M75.6 64.8 L85.1 63.5 M50 50 L50 90 M50 70 L44.1 77.6 M50 70 L55.9 77.6 M50 79.6 L44.1 87.2 M50 79.6 L55.9 87.2 M50 50 L15.4 70 M32.7 60 L23.2 58.7 M32.7 60 L29.1 68.9 M24.4 64.8 L14.9 63.5 M24.4 64.8 L20.8 73.7 M50 50 L15.4 30 M32.7 40 L29.1 31.1 M32.7 40 L23.2 41.3 M24.4 35.2 L20.8 26.3 M24.4 35.2 L14.9 36.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none"/></svg>`;
 
 // ---------------------------------------------------------------------------
 // The card
@@ -344,7 +339,7 @@ class KirigamiCard extends HTMLElement {
           .dc-header-icon { --mdc-icon-size: 24px; color: ${pal.secondary}; }
           .dc-title { font-size: 24px; font-weight: 400; color: ${pal.text}; line-height: 1.1; }
           .dc-empty { color: ${pal.secondary}; font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; padding: 20px 8px; }
-          .dc-mark { width: 66px; height: auto; fill: currentColor; opacity: 0.85; }
+          .dc-mark { width: 58px; height: 58px; opacity: 0.8; }
 
           /* row list */
           .dc-rows { display: flex; flex-direction: column; gap: 14px; }
